@@ -20,8 +20,12 @@ class TarefaService {
         $statement->bindValue(':tarefa', $this->tarefa->__get('tarefa'));
         $statement->execute();
     }
-    public function recuperar() { // read
 
+    public function recuperar() { // read
+        $query = 'select id, id_status, tarefa from tb_tarefas';
+        $statement = $this->conexao->prepare($query);
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_OBJ);
     }
     public function atualizar() { // update
 
