@@ -22,17 +22,37 @@ class TarefaService {
     }
 
     public function recuperar() { // read
-        $query = 'select id, id_status, tarefa from tb_tarefas';
+        $query = '
+            select
+                t.id, s.status, tarefa
+             from 
+                 tb_tarefas as t
+             left join tb_status as s on (t.id_status = s.id)
+             ';
         $statement = $this->conexao->prepare($query);
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_OBJ);
     }
-    public function atualizar() { // update
-
+    public function atualizar($newTask, $idTask) { // update
+        $query = "
+                UPDATE `tb_tarefas` SET `tarefa` = :newTarefa 
+                where id = :id_tarefa
+        ";
+        $statement = $this->conexao->prepare($query);
+        $statement->bindValue(':newTarefa', $newTask);
+        $statement->bindValue(':id_tarefa', $idTask);
+        $statement->execute();
     }
 
-    public function remover() { // remove
-
+    public function remover($idTask) { // remove
+        $query = '
+                delete
+                        from tb_tarefas
+                where
+                        id = :id_tarefa';
+        $statement = $this->conexao->prepare($query);
+        $statement->bindValue(':id_tarefa', $idTask);
+        $statement->execute();
     }
 }
 

@@ -26,6 +26,23 @@ if ($acao == 'inserir') {
     $conexao = new Conexao();
     $tarefaService = new TarefaService($conexao,$tarefa);
     $listaDeTarefas = $tarefaService->recuperar();
+} else if ($acao == 'update') {
+    $tarefa = new Tarefa();
+    $conexao = new Conexao();
+    $tarefaService = new TarefaService($conexao,$tarefa);
+    $tarefaUpdated = $_POST['task'];
+    $newIdTarefa = $_POST['id'];
+    $tarefaService->atualizar($tarefaUpdated,$newIdTarefa);
+    header('Location: todas_tarefas.php');
+} else if ($acao == 'remover') {
+    $tarefa = new Tarefa();
+    $conexao = new Conexao();
+    $tarefaService = new TarefaService($conexao,$tarefa);
+    // echo '<pre>';
+    // print_r($_POST);
+    // echo '</pre>';
+    $idTarefa = $_POST['idTarefa'];
+    $tarefaService->remover($idTarefa);
+    header('Location: todas_tarefas.php');
 }
-
 ?>
