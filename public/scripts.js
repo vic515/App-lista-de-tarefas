@@ -38,17 +38,13 @@ function remover(idTarefa) {
     let response =  window.confirm('Deseja remover esta tarefa?');
     if (response) {
         // remover tarefa do banco de dados
-        console.log(idTarefa)
-        let form = document.createElement('form');
-        form.action = 'tarefa_controller.php?acao=remover';
-        form.method = 'post';
-        let input = document.createElement('input');
-        input.type = 'hidden';
-        input.name = 'idTarefa';
-        input.value = idTarefa;
-        let divTarefa = document.getElementById('tarefa_' + idTarefa);
-        divTarefa.appendChild(form);
-        form.appendChild(input);
-        form.submit();
-    } 
+        location.href = 'todas_tarefas.php?acao=remover&id='+idTarefa;  
+     } 
 }
+
+function alterarStatus (idTarefa,tarefa) {
+    let response = window.confirm('A tarefa: "' + tarefa + '" foi concluída?');
+    if (response) {
+        location.href = 'todas_tarefas.php?acao=alterarStatus&id='+idTarefa;
+    }
+} 

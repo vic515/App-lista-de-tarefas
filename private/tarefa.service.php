@@ -28,19 +28,19 @@ class TarefaService {
              from 
                  tb_tarefas as t
              left join tb_status as s on (t.id_status = s.id)
-             ';
+             ;';
         $statement = $this->conexao->prepare($query);
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_OBJ);
     }
-    public function atualizar($newTask, $idTask) { // update
+    public function atualizar() { // update
         $query = "
                 UPDATE `tb_tarefas` SET `tarefa` = :newTarefa 
                 where id = :id_tarefa
         ";
         $statement = $this->conexao->prepare($query);
-        $statement->bindValue(':newTarefa', $newTask);
-        $statement->bindValue(':id_tarefa', $idTask);
+        $statement->bindValue(':newTarefa', $this->tarefa->__get('tarefa'));
+        $statement->bindValue(':id_tarefa', $this->tarefa->__get('id'));
         $statement->execute();
     }
 
@@ -52,6 +52,12 @@ class TarefaService {
                         id = :id_tarefa';
         $statement = $this->conexao->prepare($query);
         $statement->bindValue(':id_tarefa', $idTask);
+        $statement->execute();
+    }
+    public function alterarStatus($idTask) {
+        $query = "UPDATE `tb_tarefas` SET `id_status` = '2' WHERE `tb_tarefas`.`id` = :id ";
+        $statement = $this->conexao->prepare($query);
+        $statement->bindValue(':id',$idTask);
         $statement->execute();
     }
 }
